@@ -1,7 +1,7 @@
 {
-	"name": "atmel-studio-importer",
-	"displayName": "Atmel Studio Importer",
-	"description": "Importer for solutions and project files for Atmel Studio",
+	"name": "microchip-studio-for-vscode",
+	"displayName": "Microchip Studio for VS Code",
+	"description": "Importer for solutions and project files for Microchip Studio",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.56.0"
@@ -10,19 +10,19 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:atmel-studio-importer.import-solution",
-		"onCommand:atmel-studio-importer.add-project"
+		"onCommand:microchip-studio-for-vscode.open-solution",
+		"onCommand:microchip-studio-for-vscode.open-project"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "atmel-studio-importer.import-solution",
-				"title": "Atmel Studio Importer: Import solution as workspace"
+				"command": "microchip-studio-for-vscode.open-solution",
+				"title": "Microchip Studio for VS Code: Open Microchip Studio solution file"
 			},
 			{
-				"command": "atmel-studio-importer.add-project",
-				"title": "Atmel Studio Importer: Add project to workspace"
+				"command": "microchip-studio-for-vscode.open-project",
+				"title": "Microchip Studio for VS Code: Open Microchip Studio project file"
 			}
 		]
 	},
@@ -39,6 +39,7 @@
 		"@types/mocha": "^8.0.4",
 		"@types/node": "^12.11.7",
 		"@types/vscode": "^1.56.0",
+		"@types/xml2js": "^0.4.8",
 		"@typescript-eslint/eslint-plugin": "^4.14.1",
 		"@typescript-eslint/parser": "^4.14.1",
 		"eslint": "^7.19.0",
@@ -49,6 +50,7 @@
 	},
 	"dependencies": {
 		"fast-xml-parser": "^3.19.0",
-		"vs-parse": "^3.1.1"
+		"vs-parse": "^3.1.1",
+		"xml2js": "^0.4.23"
 	}
 }
