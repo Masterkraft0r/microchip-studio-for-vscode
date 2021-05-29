@@ -19,7 +19,7 @@ async function addProject(projectFile: vscode.Uri) {
 }
 
 export async function activate(context: vscode.ExtensionContext) {
-	console.log('Atmel Studio Importer is now active!');
+	console.log('Microchip Studio for VS Code is now active!');
 	let inputFiles = await vscode.window.showOpenDialog({canSelectFiles: true, canSelectFolders: false, canSelectMany: false});
 
 	if (inputFiles === undefined) {
@@ -29,7 +29,7 @@ export async function activate(context: vscode.ExtensionContext) {
 	let inputFile = inputFiles[0]; 
 
 	context.subscriptions.push(
-		vscode.commands.registerCommand('atmel-studio-importer.import-solution',
+		vscode.commands.registerCommand('microchip-studio-for-vscode.open-solution',
 			() => {
 				importSolution(inputFile);
 				// TODO: create workspace object
@@ -38,7 +38,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		)
 	);
 	context.subscriptions.push(
-		vscode.commands.registerCommand('atmel-studio-importer.add-project',
+		vscode.commands.registerCommand('microchip-studio-for-vscode.open-project',
 			() => {
 				addProject(inputFile);
 				// TODO: check if workspace is open
