@@ -13,9 +13,14 @@ async function importSolution(solutionFile: vscode.Uri) {
 }
 
 async function addProject(projectFile: vscode.Uri) {
-	let project = await vsparse.parseProject(projectFile.fsPath);
-	// let basePath = 
+	const xml2js = require("xml2js");
+
+	let parser = new xml2js.Parser();
+	let data = await vscode.workspace.fs.readFile(projectFile);
+	let project = await parser.parseStringPromise(data);
 	console.log(project);
+
+	console.log("Parse XML data");
 }
 
 export async function activate(context: vscode.ExtensionContext) {
