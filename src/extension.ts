@@ -25,6 +25,10 @@ async function addProject(projectFile: vscode.Uri) {
 
 export async function activate(context: vscode.ExtensionContext) {
 	console.log('Microchip Studio for VS Code is now active!');
+
+	context.subscriptions.push(
+		vscode.commands.registerCommand('microchip-studio-for-vscode.open-solution',
+			async () => {
 	let inputFiles = await vscode.window.showOpenDialog({canSelectFiles: true, canSelectFolders: false, canSelectMany: false});
 
 	if (inputFiles === undefined) {
@@ -33,9 +37,6 @@ export async function activate(context: vscode.ExtensionContext) {
 
 	let inputFile = inputFiles[0]; 
 
-	context.subscriptions.push(
-		vscode.commands.registerCommand('microchip-studio-for-vscode.open-solution',
-			() => {
 				importSolution(inputFile);
 				// TODO: create workspace object
 				// let workspaceFile = vscode.window.showSaveDialog();
@@ -44,7 +45,15 @@ export async function activate(context: vscode.ExtensionContext) {
 	);
 	context.subscriptions.push(
 		vscode.commands.registerCommand('microchip-studio-for-vscode.open-project',
-			() => {
+			async () => {
+				let inputFiles = await vscode.window.showOpenDialog({canSelectFiles: true, canSelectFolders: false, canSelectMany: false});
+
+				if (inputFiles === undefined) {
+					throw new vscode.FileSystemError("No file has been chosen.");
+				}
+
+				let inputFile = inputFiles[0]; 
+
 				addProject(inputFile);
 				// TODO: check if workspace is open
 				// TODO: check if file is project
