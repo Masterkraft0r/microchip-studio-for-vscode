@@ -20,7 +20,54 @@ async function addProject(projectFile: vscode.Uri) {
 	let project = await parser.parseStringPromise(data);
 	console.log(project);
 
-	console.log("Parse XML data");
+	let selectedIDE = "C:\\Program Files (x86)\\Atmel\\Studio\\7.0";
+	let selectedConfiguration = "Debug";
+	let configurations = project["Project"]["PropertyGroup"].slice(1);
+
+	// Get the toolchain settings
+	let toolchainSettings: any;
+	let compilerTag = "avrgcc";
+	for (let conf of configurations) {
+		let cond: string = conf["$"]["Condition"];
+		if (cond.indexOf(selectedConfiguration) >= 0) {
+			let settingName = Object.keys(conf["ToolchainSettings"][0])[0];
+			toolchainSettings = conf["ToolchainSettings"][0][settingName][0];
+			if ((settingName === "ArmGcc") || (settingName === "ArmGccCpp")) {
+				compilerTag = "armgcc";
+			}
+			break;
+		}
+	}
+
+	let includePaths: string[] = toolchainSettings[`${compilerTag}.compiler.directories.IncludePaths`][0]["ListValues"][0]["Value"];
+	includePaths = includePaths
+		.map((elem: string) => {
+			return elem.split("\\")
+				.filter((elem) => {
+					return elem !== "";
+				})
+				.join("/");
+		})
+		.map((elem: string) => {
+			if (elem.startsWith("../")) {
+				return elem.replace("../", "${workspaceFolder}/");
+			}
+			else if (elem.startsWith("%24(PackRepoDir)/")) {
+				return elem.replace("%24(PackRepoDir)/", selectedIDE + "/");
+			}
+			return elem;
+		});
+	console.log(includePaths);
+
+	let defines: string[] = toolchainSettings[`${compilerTag}.compiler.symbols.DefSymbols`][0]["ListValues"][0]["Value"];
+	let mcu = project["Project"]["PropertyGroup"][0]["avrdevice"];
+	if (mcu.indexOf("SAM") >= 0) {
+		defines.push(`__${mcu}__`);
+	}
+	else {
+		defines.push(`__AVR_${mcu}__`);
+	}
+	console.log(defines);
 }
 
 export async function activate(context: vscode.ExtensionContext) {
