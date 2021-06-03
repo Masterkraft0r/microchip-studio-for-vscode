@@ -60,7 +60,7 @@ async function addProject(projectFile: vscode.Uri) {
 	console.log(includePaths);
 
 	let defines: string[] = toolchainSettings[`${compilerTag}.compiler.symbols.DefSymbols`][0]["ListValues"][0]["Value"];
-	let mcu = project["Project"]["PropertyGroup"][0]["avrdevice"];
+	let mcu = project["Project"]["PropertyGroup"][0]["avrdevice"][0];
 	if (mcu.indexOf("SAM") >= 0) {
 		defines.push(`__${mcu}__`);
 	}
