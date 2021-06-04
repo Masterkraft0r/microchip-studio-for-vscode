@@ -38,7 +38,9 @@ async function addProject(projectFile: vscode.Uri) {
 			break;
 		}
 	}
+	console.log(toolchainSettings);
 
+	// Get include paths
 	let includePaths: string[] = toolchainSettings[`${compilerTag}.compiler.directories.IncludePaths`][0]["ListValues"][0]["Value"];
 	includePaths = includePaths
 		.map((elem: string) => {
@@ -57,8 +59,8 @@ async function addProject(projectFile: vscode.Uri) {
 			}
 			return elem;
 		});
-	console.log(includePaths);
 
+	// Get defines and MCU name
 	let defines: string[] = toolchainSettings[`${compilerTag}.compiler.symbols.DefSymbols`][0]["ListValues"][0]["Value"];
 	let mcu = project["Project"]["PropertyGroup"][0]["avrdevice"][0];
 	if (mcu.indexOf("SAM") >= 0) {
@@ -67,7 +69,21 @@ async function addProject(projectFile: vscode.Uri) {
 	else {
 		defines.push(`__AVR_${mcu}__`);
 	}
-	console.log(defines);
+
+	// Get C standard
+	let cStandard = "gnu99";
+	if (toolchainSettings.hasOwnProperty(`${compilerTag}.compiler.miscellaneous.OtherFlags`)) {
+		let miscFlags = toolchainSettings[`${compilerTag}cpp.compiler.miscellaneous.OtherFlags`][0];
+		cStandard = miscFlags.match("[^-std=].*[0-9]+")![0];
+	}
+
+	// Get C++ standard
+	let cppStandard = "gnu++03";
+	if (toolchainSettings.hasOwnProperty(`${compilerTag}cpp.compiler.miscellaneous.OtherFlags`)) {
+		let miscFlags = toolchainSettings[`${compilerTag}cpp.compiler.miscellaneous.OtherFlags`][0];
+		cppStandard = miscFlags.match("[^-std=].*[0-9]+")![0];
+	}
+
 }
 
 export async function activate(context: vscode.ExtensionContext) {
