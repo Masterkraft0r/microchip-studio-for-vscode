@@ -24,6 +24,14 @@ async function addProject(projectFile: vscode.Uri) {
 	let selectedConfiguration = "Debug";
 	let configurations = project["Project"]["PropertyGroup"].slice(1);
 
+	// Get the available configurations
+	let configNames: string[] = [];
+	for (let conf of configurations) {
+		let configName = conf["$"]["Condition"].match("[^'\$\(Configuration\)' == '](.*)(?=')")[0];
+		configNames.push(configName);
+	}
+	console.log(configNames);
+
 	// Get the toolchain settings
 	let toolchainSettings: any;
 	let compilerTag = "avrgcc";
