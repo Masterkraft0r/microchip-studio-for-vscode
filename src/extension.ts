@@ -84,6 +84,23 @@ async function addProject(projectFile: vscode.Uri) {
 		cppStandard = miscFlags.match("[^-std=].*[0-9]+")![0];
 	}
 
+	let jsonObject = {
+		configurations: [
+			{
+				name: "MicrochipStudio",
+				includePath: includePaths,
+				defines: defines,
+				compilerPath: "C:\\Program Files (x86)\\Atmel\\Studio\\7.0\\toolchain\\arm\\arm-gnu-toolchain\\bin\\arm-none-eabi-gcc.exe",
+				cStandard: cStandard,
+				cppStandard: cppStandard,
+				intelliSenseMode: "gcc-arm",
+			}
+		],
+		version: 4
+	};
+
+	let cppPropFile = vscode.Uri.file(`${vscode.workspace.workspaceFolders}/.vscode/c_cpp_properties.json`);
+	vscode.workspace.fs.writeFile(cppPropFile, Buffer.from(JSON.stringify(jsonObject, null, '\t')));
 }
 
 export async function activate(context: vscode.ExtensionContext) {
