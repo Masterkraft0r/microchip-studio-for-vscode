@@ -27,7 +27,7 @@ async function addProject(projectFile: vscode.Uri) {
 	// Get the available configurations
 	let configNames: string[] = [];
 	for (let conf of configurations) {
-		let configName = conf["$"]["Condition"].match("[^'\$\(Configuration\)' == '](.*)(?=')")[0];
+		let configName = conf["$"]["Condition"].match("[^'\$\(Configuration\)' == '].*(?=')")[0];
 		configNames.push(configName);
 	}
 	console.log(configNames);
