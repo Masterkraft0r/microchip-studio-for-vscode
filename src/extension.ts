@@ -82,14 +82,14 @@ async function addProject(projectFile: vscode.Uri) {
 	let cStandard = "gnu99";
 	if (toolchainSettings.hasOwnProperty(`${compilerTag}.compiler.miscellaneous.OtherFlags`)) {
 		let miscFlags = toolchainSettings[`${compilerTag}cpp.compiler.miscellaneous.OtherFlags`][0];
-		cStandard = miscFlags.match("[^-std=].*[0-9]+")![0];
+		cStandard = miscFlags.match("[^-std=].*[0-9]+")[0];
 	}
 
 	// Get C++ standard
 	let cppStandard = "gnu++03";
 	if (toolchainSettings.hasOwnProperty(`${compilerTag}cpp.compiler.miscellaneous.OtherFlags`)) {
 		let miscFlags = toolchainSettings[`${compilerTag}cpp.compiler.miscellaneous.OtherFlags`][0];
-		cppStandard = miscFlags.match("[^-std=].*[0-9]+")![0];
+		cppStandard = miscFlags.match("[^-std=].*[0-9]+")[0];
 	}
 
 	let jsonObject = {
@@ -101,7 +101,7 @@ async function addProject(projectFile: vscode.Uri) {
 				compilerPath: "C:\\Program Files (x86)\\Atmel\\Studio\\7.0\\toolchain\\arm\\arm-gnu-toolchain\\bin\\arm-none-eabi-gcc.exe",
 				cStandard: cStandard,
 				cppStandard: cppStandard,
-				intelliSenseMode: "gcc-arm",
+				intelliSenseMode: "gcc-arm"
 			}
 		],
 		version: 4
