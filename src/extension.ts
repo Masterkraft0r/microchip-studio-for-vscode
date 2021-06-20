@@ -81,7 +81,7 @@ async function addProject(projectFile: vscode.Uri) {
 	// Get C standard
 	let cStandard = "gnu99";
 	if (toolchainSettings.hasOwnProperty(`${compilerTag}.compiler.miscellaneous.OtherFlags`)) {
-		let miscFlags = toolchainSettings[`${compilerTag}cpp.compiler.miscellaneous.OtherFlags`][0];
+		let miscFlags = toolchainSettings[`${compilerTag}.compiler.miscellaneous.OtherFlags`][0];
 		cStandard = miscFlags.match("[^-std=].*[0-9]+")[0];
 	}
 
