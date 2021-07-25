@@ -3,6 +3,10 @@ import * as path from 'path';
 
 const vsparse = require("vs-parse");
 
+let statusBarWorkbench: vscode.StatusBarItem;
+let statusBarProject: vscode.StatusBarItem;
+let statusBarConfig: vscode.StatusBarItem;
+
 async function importSolution(solutionFile: vscode.Uri) {
 	let solution = await vsparse.parseSolution(solutionFile.fsPath);
 	// let basePath = 
@@ -171,6 +175,47 @@ export async function activate(context: vscode.ExtensionContext) {
 	);
 
 	addProject(inputFile);
+
+	// register a command that is invoked when the status bar
+	// item is selected
+	const commandIdWorkbench = 'sample.showWorkbench';
+	context.subscriptions.push(vscode.commands.registerCommand(commandIdWorkbench, () => {
+		vscode.window.showInformationMessage(`Yeah, select the workbench!`);
+	}));
+
+	const commandIdProject = 'sample.showProject';
+	context.subscriptions.push(vscode.commands.registerCommand(commandIdProject, () => {
+		vscode.window.showInformationMessage(`Yeah, select the project!`);
+	}));
+
+	const commandIdConfig = 'sample.showConfig';
+	context.subscriptions.push(vscode.commands.registerCommand(commandIdConfig, () => {
+		vscode.window.showInformationMessage(`Yeah, select the configuration!`);
+	}));
+
+	// create a new status bar item that we can now manage
+	statusBarWorkbench = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 4);
+	statusBarWorkbench.command = commandIdWorkbench;
+	context.subscriptions.push(statusBarWorkbench);
+
+	statusBarWorkbench.text = `Select Workbench`;
+	statusBarWorkbench.show();
+
+	// create a new status bar item that we can now manage
+	statusBarProject = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 3);
+	statusBarProject.command = commandIdProject;
+	context.subscriptions.push(statusBarProject);
+
+	statusBarProject.text = `Select Project`;
+	statusBarProject.show();
+
+	// create a new status bar item that we can now manage
+	statusBarConfig = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Left, 2);
+	statusBarConfig.command = commandIdConfig;
+	context.subscriptions.push(statusBarConfig);
+
+	statusBarConfig.text = `Select Configuration`;
+	statusBarConfig.show();
 }
 
 export function deactivate() {}
