@@ -94,6 +94,19 @@ async function addProject(projectFile: vscode.Uri) {
 		cppStandard = miscFlags.match("[^-std=].*[0-9]+")[0];
 	}
 
+	// let jsonObject: {
+	// 	configurations: {
+	// 		name: string,
+	// 		includePath: string[],
+	// 		defines: string[],
+	// 		compilerPath: string,
+	// 		cStandard: string,
+	// 		cppStandard: string,
+	// 		intelliSenseMode: string
+	// 	}[],
+	// 	version: number
+	// };
+
 	let jsonObject = {
 		configurations: [
 			{
@@ -109,7 +122,8 @@ async function addProject(projectFile: vscode.Uri) {
 		version: 4
 	};
 
-	let cppPropFile = vscode.Uri.file(`${vscode.workspace.workspaceFolders}/.vscode/c_cpp_properties.json`);
+	// let cppPropFile = vscode.Uri.file(`${vscode.workspace.workspaceFolders}/.vscode/c_cpp_properties.json`);
+	let cppPropFile = vscode.Uri.file("D:\\_TEMP\\.vscode\\c_cpp_properties.json");
 	vscode.workspace.fs.writeFile(cppPropFile, Buffer.from(JSON.stringify(jsonObject, null, '\t')));
 }
 
