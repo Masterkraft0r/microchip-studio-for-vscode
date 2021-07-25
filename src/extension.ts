@@ -117,7 +117,7 @@ async function addProject(projectFile: vscode.Uri) {
 				name: "MicrochipStudio",
 				includePath: includePaths,
 				defines: defines,
-				compilerPath: "C:\\Program Files (x86)\\Atmel\\Studio\\7.0\\toolchain\\arm\\arm-gnu-toolchain\\bin\\arm-none-eabi-gcc.exe",
+				compilerPath: selectedCompiler,
 				cStandard: cStandard,
 				cppStandard: cppStandard,
 				intelliSenseMode: "windows-gcc-arm"
