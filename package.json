@@ -10,8 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:microchip-studio-for-vscode.open-solution",
-		"onCommand:microchip-studio-for-vscode.open-project"
+		"*"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
