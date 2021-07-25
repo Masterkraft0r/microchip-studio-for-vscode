@@ -21,7 +21,9 @@ async function addProject(projectFile: vscode.Uri) {
 	console.log(project);
 
 	let selectedIDE = "C:\\Program Files (x86)\\Atmel\\Studio\\7.0";
+	let selectedCompiler = `${selectedIDE}\\toolchain\\arm\\arm-gnu-toolchain\\bin\\arm-none-eabi-gcc.exe`;
 	let selectedConfiguration = "Debug";
+
 	let configurations = project["Project"]["PropertyGroup"].slice(1);
 
 	// Get the available configurations
@@ -101,7 +103,7 @@ async function addProject(projectFile: vscode.Uri) {
 				compilerPath: "C:\\Program Files (x86)\\Atmel\\Studio\\7.0\\toolchain\\arm\\arm-gnu-toolchain\\bin\\arm-none-eabi-gcc.exe",
 				cStandard: cStandard,
 				cppStandard: cppStandard,
-				intelliSenseMode: "gcc-arm"
+				intelliSenseMode: "windows-gcc-arm"
 			}
 		],
 		version: 4
